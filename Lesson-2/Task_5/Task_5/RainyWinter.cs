@@ -8,40 +8,24 @@ namespace Task_5
         static void Main()
         {
             byte monthNumb = 0;
-            string monthName = "";
-
-            do
-            {
-                Console.WriteLine("Введите номер месяца (1-12):");
-                monthNumb = Convert.ToByte(Console.ReadLine());
-            } while (monthNumb < 1 || monthNumb > 12);
-
-            string minT_str = "", maxT_str = "";
-            float aveT;
-
-            do
-            {
-                if (minT_str == "")
-                {
-                    Console.WriteLine("Введите минимальную суточную температуру C:");
-                    minT_str = Console.ReadLine();
-                }
-                if (maxT_str == "")
-                {
-                    Console.WriteLine("Введите максимальную суточную температуру C:");
-                    maxT_str = Console.ReadLine();
-                }
-            } while (minT_str == "" || maxT_str == "");
+            string monthName;
 
             RainyWinter rainyWinter = new RainyWinter();
+            Dictionary<string, string> userInputData = rainyWinter.UserInput();
+
+            monthNumb = Convert.ToByte(userInputData["monthNumb"]);
             monthName = rainyWinter.Months(monthNumb);
-            aveT = rainyWinter.AverageT(minT_str, maxT_str);
+            float aveT = rainyWinter.AverageT(userInputData["minT"], userInputData["maxT"]);
 
             Console.WriteLine("Среднесуточная температура равна: {0:f1}C", aveT);
             Console.WriteLine("Месяц под номером {0} - {1}", monthNumb, monthName);
             Console.Read();
         }
 
+        #region UserInput
+
+        /// <summary>Ввод данных пользователем в консоль.</summary>
+        /// <returns>Введенные данные.</returns>
         private Dictionary<string, string> UserInput()
         {
             byte monthNumb = 0;
@@ -73,6 +57,8 @@ namespace Task_5
             userInputData.Add("monthNumb", monthNumb.ToString());
             return userInputData;
         }
+
+        #endregion
 
         #region Months
 
@@ -141,7 +127,7 @@ namespace Task_5
             if (maxT < minT)
             {
                 Console.WriteLine("Максимальная температура не может быть меньше минимальной!");
-                Main();
+                UserInput();
             }
 
             aveT = (minT + maxT) / 2;
