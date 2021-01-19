@@ -19,8 +19,33 @@ namespace Task_5
 
             Console.WriteLine("Среднесуточная температура равна: {0:f1}C", aveT);
             Console.WriteLine("Месяц под номером {0} - {1}", monthNumb, monthName);
+
+            rainyWinter.Rain(aveT, monthNumb);
+
             Console.Read();
         }
+
+        #region Rain
+
+        /// <summary>Проверка дождливости зимы).</summary>
+        /// <param name="aveT">Средняя температура.</param>
+        /// <param name="monthNumb">Номер месяца.</param>
+        private void Rain(float aveT, byte monthNumb)
+        {
+            bool winter = false;
+            switch (monthNumb)
+            {
+                case 1:
+                case 2:
+                case 12:
+                    winter = true;
+                    break;
+            }
+            if(aveT>0 && winter)
+                Console.WriteLine("Дождливая зима.");
+        }
+
+        #endregion
 
         #region UserInput
 
