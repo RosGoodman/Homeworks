@@ -1,0 +1,7 @@
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Diagonal\bin\Debug\Diagonal.exe.config
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Diagonal\bin\Debug\Diagonal.exe
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Diagonal\bin\Debug\Diagonal.pdb
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Diagonal\obj\Debug\Task_1.csprojAssemblyReference.cache
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Diagonal\obj\Debug\Task_1.csproj.CoreCompileInputs.cache
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Diagonal\obj\Debug\Diagonal.exe
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Diagonal\obj\Debug\Diagonal.pdb

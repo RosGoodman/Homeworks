@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Diagonal
+namespace Task_1
 {
-    class Program
+    class Diagonal
     {
         static void Main(string[] args)
         {
@@ -10,7 +10,7 @@ namespace Diagonal
             int lenght = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine();
 
-            Program program = new Program();
+            Diagonal program = new Diagonal();
             int[,] rndArr = program.RandomArray(lenght);
 
             program.PrintDiagonal(rndArr);
@@ -26,6 +26,7 @@ namespace Diagonal
             for (int i=0; i < rndArr.GetLength(0); i++)
             {
                 Console.Write(rndArr[i,i] + " ");
+                if (rndArr[i, i] < 10) Console.Write(" ");
             }
         }
 
