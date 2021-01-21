@@ -7,35 +7,19 @@ namespace Task_2
         static void Main()
         {
             PhoneBook phoneBook = new PhoneBook();
-            string[,] contacts = phoneBook.GetArrayContacts();
-
             string command;
+
             do
             {
                 Console.WriteLine("Введите \"com\", что-бы увидеть возможные команды.");
-                command = (Console.ReadLine().ToLower());
+                command = Console.ReadLine().ToLower();
                 Console.WriteLine();
+
+                string[,] contacts = ArrayContacts.Contacts;
                 phoneBook.Commands(command, contacts);
             } while (command != "q");
-            
         }
-
-        /// <summary>Получить массив контактов.</summary>
-        /// <returns>Массив контактов (имя, тел.\email)</returns>
-        private string[,] GetArrayContacts()
-        {
-            string[,] contacts = new string[5,2];
-
-            contacts[0, 0] = "Иван";
-            contacts[0, 1] = "278-32-66";
-            contacts[1, 0] = "Елена";
-            contacts[1, 1] = "elena22@gmail.com";
-            contacts[2, 0] = "Анатолий";
-            contacts[2, 1] = "(911) 256 77 77";
-
-            return contacts;
-        }
-
+        
         /// <summary>Определение и запуск команды.</summary>
         /// <param name="command">Команда.</param>
         /// <param name="contacts">Массив конактов.</param>
@@ -47,24 +31,22 @@ namespace Task_2
             {
                 case "com":
                     PrintAllCommand();
-                    Console.WriteLine("1");     //TODO: удалить выводы.
                     break;
                 case "list":
-                    Console.WriteLine("2");
                     ShowContactList(contacts, comParts);
                     break;
                 case "add":
-                    Console.WriteLine("3");
                     AddContact(contacts, comParts);
                     break;
-                case "del":
-                    Console.WriteLine("4");
+                case "rm":
+                    RemoveContact(contacts, comParts);
                     break;
                 case "change":
-                    Console.WriteLine("5");
+                    ChangeContact(contacts, comParts);
+                    break;
+                case "q":
                     break;
                 case "":
-                    Console.WriteLine("0");
                     break;
                 default:
                     PrintErrors("wrongCommand");
@@ -98,6 +80,7 @@ namespace Task_2
                 if(contacts[i, 0] != null) contactsCount++;
             }
             int x = contacts.GetLength(0);
+
             if (contacts.GetLength(0) == contactsCount)
             {
                 PrintErrors("outOfRange");
@@ -108,6 +91,32 @@ namespace Task_2
                 contacts[contactsCount, 0] = comParts[1];   //имя
                 if (comParts.Length == 3) contacts[contactsCount, 1] = comParts[2];   //номер/email
             }
+        }
+        #endregion
+
+        #region RemoveContacts
+        private void RemoveContact(string[,] contacts, string[] comParts)
+        {
+            int contactNumb = GetContactCount(contacts, comParts)-1;
+            if (contacts[contactNumb, 0] == null) return;
+
+            for(int i = contactNumb; i < contacts.GetLength(0)-1; i++)
+            {
+                contacts[i, 0] = contacts[i + 1, 0];
+                contacts[i, 1] = contacts[i + 1, 1];
+            }
+            contacts[4, 0] = null;
+            contacts[4, 1] = null;
+        }
+        #endregion
+
+        #region ChangeContact
+        private void ChangeContact(string[,] contacts, string[] comParts)
+        {
+            int contactNumb = GetContactCount(contacts, comParts) - 1;
+
+            contacts[contactNumb, 0] = comParts[2];
+            contacts[contactNumb, 1] = comParts[3];
         }
         #endregion
 
@@ -137,13 +146,13 @@ namespace Task_2
         /// <summary>Вывод списка команд.</summary>
         private void PrintAllCommand()
         {
-            Console.WriteLine($"com       - вывести все команды\n" +
-                $"show  1   - вывести весь список контактов\n" +
-                $"add       - добавить контакт (через пробел \"имя телефон/email\")\n" +
-                $"del  1    - удалить контакт под указанным номером\n" +
-                $"change  1 - изменить контакт под указанным номером\n" +
-                $"q         - выход\n" +
-                $"Номер контакта не оьязателен, без них команда воздействует на все контакты.\n");
+            Console.WriteLine($"com                - вывести все команды\n" +
+                $"list 1             - вывести весь список контактов\n" +
+                $"add name mail      - добавить контакт\n" +
+                $"rm 1               - удалить контакт под указанным номером\n" +
+                $"change 1 name mail - изменить контакт под указанным номером\n" +
+                $"q                  - выход\n" +
+                $"Номер контакта не обязателен, без них команда воздействует на все контакты.\n");
         }
         #endregion
 
@@ -168,4 +177,46 @@ namespace Task_2
         }
         #endregion
     }
+
+    #region Array
+    /// <summary>Массив контактов.</summary>
+    public static class ArrayContacts
+    {
+        private static string[,] _contacts;
+
+        public static string[,] Contacts
+        {
+            get
+            {
+                if (_contacts == null)
+                    _contacts = GetArrayContacts();
+
+                return _contacts;
+            }
+            set
+            {
+                if (_contacts == null)
+                    _contacts = GetArrayContacts();
+                else
+                    _contacts = value;
+            }
+        }
+
+        /// <summary>Получить массив контактов.</summary>
+        /// <returns>Массив контактов (имя, тел.\email)</returns>
+        private static string[,] GetArrayContacts()
+        {
+            string[,] contacts = new string[5, 2];
+
+            contacts[0, 0] = "Иван";
+            contacts[0, 1] = "278-32-66";
+            contacts[1, 0] = "Елена";
+            contacts[1, 1] = "elena22@gmail.com";
+            contacts[2, 0] = "Анатолий";
+            contacts[2, 1] = "(911) 256 77 77";
+
+            return contacts;
+        }
+    }
+    #endregion
 }
