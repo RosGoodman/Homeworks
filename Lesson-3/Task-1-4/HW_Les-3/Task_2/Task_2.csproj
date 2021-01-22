@@ -43,11 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <Compile Include="PhoneDirectory.cs" />
-=======
     <Compile Include="PhoneBook.cs" />
->>>>>>> ab1cf96eccee456196db31b5ce770c368f4c4c56
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

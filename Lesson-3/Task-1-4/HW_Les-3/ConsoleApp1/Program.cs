@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class PhoneDirectory
+    class Program
     {
         static void Main(string[] args)
         {
-
         }
     }
 }
