@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Task_2
 {
-    class Program
+    class PhoneDirectory
     {
         static void Main(string[] args)
         {
+
         }
     }
 }
