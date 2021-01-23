@@ -1,0 +1,7 @@
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Task_3\bin\Debug\Task_3.exe.config
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Task_3\bin\Debug\Task_3.exe
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Task_3\bin\Debug\Task_3.pdb
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Task_3\obj\Debug\Task_3.csprojAssemblyReference.cache
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Task_3\obj\Debug\Task_3.csproj.CoreCompileInputs.cache
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Task_3\obj\Debug\Task_3.exe
+C:\Users\Scan22\Desktop\разработка\C#\Repositories\Geek\Homeworks\Lesson-3\Task-1-4\HW_Les-3\Task_3\obj\Debug\Task_3.pdb
