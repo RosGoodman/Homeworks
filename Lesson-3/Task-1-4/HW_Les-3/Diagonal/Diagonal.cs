@@ -43,7 +43,9 @@ namespace Task_1
                 for(int j = 0; j< lenght; j++)
                 {
                     rndArr[i, j] = random.Next(0, 100);
+                    if (i == j) Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write($"{rndArr[i,j]} ");    //вывод для наглядности
+                    Console.ResetColor();
                     if (rndArr[i, j] < 10) Console.Write(" ");
                 }
                 Console.WriteLine();
