@@ -9,19 +9,15 @@ namespace Task_4
         static void Main()
         {
             SeaBattle seaBattle = new SeaBattle();
-            string[,] gameField = seaBattle.LoadField();
-
-            Dictionary<int, int> ships = new Dictionary<int, int>();
-            ships.Add(4, 1);    //key - ships count, value deck count
-            ships.Add(3, 2);
-            ships.Add(2, 3);
-            ships.Add(1, 4);
+            object[] gameField = seaBattle.LoadField();
+            Dictionary<int, int> freeCells = seaBattle.CreateDictFreeCells();
+            Dictionary<int, int> ships = seaBattle.CreateDictShips();
             
             foreach (KeyValuePair<int,int> ship in ships)
             {
-                for(int i = 0; i<ship.Key; i++) //цикл по количеству определенных кораблей
+                for(int i = 0; i<ship.Value; i++) //цикл по количеству определенных кораблей
                 {
-                    seaBattle.DotSpawnShips(ref gameField, ship);
+                    seaBattle.DotSpawnShips(ref gameField, ship, freeCells);
                 }
             }
 
@@ -29,125 +25,138 @@ namespace Task_4
             {
                 for(int j = 0; j<10; j++)
                 {
-                    Console.Write(gameField[i,j] + " ");
+                    //Console.Write(gameField[i,j] + " ");
                 }
                 Console.WriteLine();
             }
-            Console.ReadLine();
+            Console.Read();
         }
 
-        private string[,] LoadField()
+        #region Словарь кораблей
+        private Dictionary<int,int> CreateDictShips()
         {
-            string[,] gameField = new string[10, 10];
+            Dictionary<int, int> ships = new Dictionary<int, int>();
+            ships.Add(4, 1);    //key - deck count, value - ships count
+            ships.Add(3, 2);
+            ships.Add(2, 3);
+            ships.Add(1, 4);
+            return ships;
+        }
+        #endregion
+
+        #region Заполняем пустое поле "водой"
+        /// <summary>Получаем массив горизонталей с ключами.</summary>
+        /// <returns>Массив строк.</returns>
+        private object[] LoadField()
+        {
+            object[] gameField = new object[10];
             for (int i = 0; i < 10; i++)
             {
+                List<int> str = new List<int>();
                 for (int j = 0; j < 10; j++)
                 {
-                    if (gameField[i, j] == null || gameField[i, j] == ".")
-                        gameField[i, j] = "O";
+                    str.Add(j);
                 }
+                gameField[i] = str;
             }
             return gameField;
         }
+        #endregion
 
-        private void DotSpawnShips(ref string[,] gameField, KeyValuePair<int, int> ship)
+        #region словарь свободных ячеек поля
+        private Dictionary<int,int> CreateDictFreeCells()
+        {
+            Dictionary<int, int> freeCells = new Dictionary<int, int>();
+            for (int i = 0; i < 100; i++)
+            {
+                freeCells.Add(i, i);
+            }
+            return freeCells;
+        }
+        #endregion
+
+        private void DotSpawnShips(ref object[] gameField, KeyValuePair<int, int> ship, Dictionary<int,int> freeCells)
         {
             Random random = new Random();
             int[] dot = new int[3];     //ox,oy,direction
 
             do
             {
-                dot[2] = random.Next(0, 1);     //0-horisontal, 1-vertical
-                Thread.Sleep(20);
-                dot[0] = random.Next(0, 9);     //ox
-                Thread.Sleep(20);
-                dot[1] = random.Next(0, 9);     //oy
+                dot[0] = random.Next(0, freeCells.Count);     //ox
+                //Thread.Sleep(20);
+                dot[1] = random.Next(0, 1);     //0-horisontal, 1-vertical
+                
             } while (!ChekFieldRecField(ref gameField, dot, ship));
 
             ChekFieldRecField(ref gameField, dot, ship, true);
+            PasteValInArr(gameField);
         }
 
-        private bool ChekFieldRecField(ref string[,] gameField, int[] dot, KeyValuePair<int, int> ship, bool recording=false)
+        private bool ChekFieldRecField(ref object[] gameField, int[] dot, KeyValuePair<int, int> ship, bool recording=false)
         {
-            if (gameField[dot[0], dot[1]] != "O") return false;
+            int axis1 = (dot[0] % 10) - 1 + ship.Key;   //ox
+            int axis2 = (dot[0] - (dot[0] % 10)) - 1;
+            //int axis1=dot[0];
+            //int axis2=dot[1];
 
-            int axis1=dot[0];
-            int axis2=dot[1];
+            //for (int i = axis1; i < ship.Key+axis1; i++)  //вдоль корабля
+            //{
+            //    int ox = 0;
+            //    int oy = 0;
 
-            if (dot[2] == 1)    //если вертикальное направление - меняем оси, чтоб не дублировать код
-            {
-                axis1 = dot[1];
-                axis2 = dot[0];
-            }
+            //    if (i > 9) return false;    //выход за границу поля
+            //    for (int j = i-1; j < i+2; j++)    //ячейки вокруг корабля
+            //    {
+            //        if (j < 0 || j > 9) continue;
+            //        for (int k = axis2-1; k < axis2+2; k++)
+            //        {
+            //            if (k < 0 || k > 9) continue;   //если выход за границы
 
-            for (int i = axis1; i < ship.Key; i++)  //вдоль корабля
-            {
-                if (i > 9) return false;    //выход за границу поля
-                for (int j = 0; j < 3; j++)    //ячейки вокруг корабля
-                {
-                    for (int k = 0; k < 3; k++)
-                    {
-                        if (gameField[j, k] != gameField[i, axis2] && gameField[j, k] != "X")  //если в своем окружении нет корабля
-                        {
-                            if (recording) gameField[j,k] = ".";
-                            break;
-                        }
-                        else if (gameField[j, k] == gameField[i, axis2] && gameField[j, k] != ".")   //если не попадает в окружение другого корабля
-                        {
-                            if (recording) gameField[j, k] = "X";
-                            break;
-                        }
-                        else
-                            return false;
-                    }
-                }
-            }
+            //            ox = j;
+            //            oy = k;
+
+            //            if (dot[2] == 0)
+            //            {
+            //                ox = k;
+            //                oy = j;
+            //            }
+
+            //            #region проверка перед записью
+            //            if (gameField[ox, oy] != "X" && !recording)   //если не запись, то проверяем место на поле
+            //                continue; 
+            //            else if(gameField[ox, oy] == "X" && !recording)
+            //                return false;
+            //            #endregion
+
+            //            //PasteValInArr(ref gameField, j, k, dot[2], ".");
+            //            if (gameField[ox, oy] != "X") gameField[ox, oy] = ".";
+            //        }
+            //    }
+            //    //if (recording) PasteValInArr(ref gameField, i, axis2, dot[2], "X");
+            //    ox = i;
+            //    oy = axis2;
+            //    if (dot[2] == 0)
+            //    {
+            //        ox = axis2;
+            //        oy = i;
+            //    }
+
+            //    if (recording) gameField[ox, oy] = "X";
+            //}
             return true;
         }
 
-        //private bool ThereIsPlace(string[,] gameField, int[] dot, KeyValuePair<int, int> ship)
-        //{
-        //    if (gameField[dot[0], dot[1]] != "O") return false;
-
-        //    if (dot[2] == 0) //горизонталь
-        //    {
-        //        for(int i = dot[0]; i < ship.Key; i++)  //вдоль корабля
-        //        {
-        //            if (i > 9) return false;    //выход за границу поля
-        //            for(int j = 0; j<3; j++)    //ячейки вокруг корабля
-        //            {
-        //                for(int k = 0; k<3; k++)
-        //                {
-        //                    if (gameField[j, k] != gameField[i, dot[1]] && gameField[j, k] != "X")  //если в своем окружении нет корабля
-        //                        break;
-        //                    else if (gameField[j, k] == gameField[i, dot[1]] && gameField[j, k] != ".")   //если не попадает в окружение другого корабля
-        //                        break;
-        //                    else
-        //                        return false;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        for (int i = dot[1]; i < ship.Key; i++)  //вдоль корабля
-        //        {
-        //            if (i > 9) return false;    //выход за границу поля
-        //            for (int j = 0; j < 3; j++)    //ячейки вокруг корабля
-        //            {
-        //                for (int k = 0; k < 3; k++)
-        //                {
-        //                    if (gameField[j, k] != gameField[i, dot[0]] && gameField[j, k] != "X")  //если в своем окружении нет корабля
-        //                        break;
-        //                    else if (gameField[j, k] == gameField[i, dot[0]] && gameField[j, k] != ".")   //если не попадает в окружение другого корабля
-        //                        break;
-        //                    else
-        //                        return false;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return true; //todo d't remamber
-        //}
+        private void PasteValInArr(object[] gameField)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    //Console.Write(gameField[i,j] + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+        }
     }
 }
