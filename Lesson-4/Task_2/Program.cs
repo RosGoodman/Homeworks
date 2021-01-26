@@ -10,6 +10,7 @@ namespace Task_2
     {
         static void Main(string[] args)
         {
+            string[] numbers = Console.ReadLine().Split(' ');
         }
     }
 }
