@@ -34,9 +34,9 @@ namespace Task_4
             int length = 0;
             do
             {
-                if (length < 2) Console.WriteLine("Последовательность не может быть меньше 2.");
                 Console.WriteLine("Введите желаемую длину последовательности Фибоначчи:");
                 length = Convert.ToInt32(Console.ReadLine());
+                if (length < 2) Console.WriteLine("Последовательность не может быть меньше 2.");
             } while (length < 2);
 
             return length;
