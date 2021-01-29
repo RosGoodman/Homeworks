@@ -1,6 +1,9 @@
 ﻿
+using System;
+
 namespace Task_5
 {
+    [Serializable]
     public class ToDo
     {
         private string _title = "задача";
