@@ -1,7 +1,10 @@
 ﻿
+using System;
+
 namespace Task_5
 {
-    internal class ToDo
+    [Serializable]
+    public class ToDo
     {
         private string _title = "задача";
         private bool _isDone = true;
