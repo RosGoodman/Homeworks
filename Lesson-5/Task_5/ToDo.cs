@@ -1,24 +1,31 @@
-﻿
-using System;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace Task_5
 {
-    [Serializable]
-    public class ToDo
+    /// <summary>Модель задачи.</summary>
+    [DataContract] internal class ToDo
     {
-        private string _title = "задача";
-        private bool _isDone = true;
+        [DataMember] private string _title = String.Empty;
+        [DataMember] private bool _isDone = false;
 
-        public string Title
+        /// <summary>Задача.</summary>
+        internal string Title
         {
             get { return _title; }
             set { _title = value; }
         }
 
-        public bool IsDone
+        /// <summary>Состояние задачи.</summary>
+        internal bool IsDone
         {
             get { return _isDone; }
             set { _isDone = value; }
+        }
+
+        internal ToDo(string title)
+        {
+            Title = title;
         }
     }
 }
