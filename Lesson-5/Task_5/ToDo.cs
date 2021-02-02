@@ -6,7 +6,7 @@ namespace Task_5
     /// <summary>Модель задачи.</summary>
     [DataContract] internal class ToDo
     {
-        [DataMember] private string _title = String.Empty;
+        [DataMember] private string _title = string.Empty;
         [DataMember] private bool _isDone = false;
 
         /// <summary>Задача.</summary>
