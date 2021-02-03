@@ -72,7 +72,7 @@ namespace Task_4
             do
             {
                 dot[0] = random.Next(0, FreeCells.FreeCellsDict.Count);     //ox
-                dot[1] = random.Next(0, 99);     //0-horisontal, 1-vertical
+                dot[1] = random.Next(0, 99);     //0-49-horisontal, 50-99-vertical
                 
             } while (!ChekFieldRecField(ref gameField, dot, ship));
 
