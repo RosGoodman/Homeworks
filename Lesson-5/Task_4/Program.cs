@@ -13,7 +13,7 @@ namespace Task_4
             string directory = UserInput();
 
             Cycle(directory);
-            //StartRecursiveMethod(directory);
+            StartRecursiveMethod(directory);
 
             Console.WriteLine("Список файлов, полученный циклом записан в файл cycleTree.txt");
             Console.WriteLine("Список файлов, полученный рекурсией записан в файл recurcive.txt");
@@ -46,14 +46,14 @@ namespace Task_4
         /// <param name="entries">Путь к выбранной директории.</param>
         private static void Cycle(string directory)
         {
-            string[] entries = Directory.GetFileSystemEntries(directory, "*", SearchOption.AllDirectories);
-            string[] files = new string[entries.Length * 2];
-            int directoryDepth = entries[0].Split('\\').Length;
-            string space = "";
+            string[] entries = Directory.GetFileSystemEntries(directory, "*", SearchOption.AllDirectories); //массив всех файлов и папок
+            string[] files = new string[entries.Length * 2];        //массив для записи
+            int directoryDepth = entries[0].Split('\\').Length;     //"глубина" выбранного каталога
+            string space = "";                                      //отступы
             var parentPath = Directory.GetParent(entries[0]);
-            files[0] = Path.GetFileName(parentPath.Name);
+            int k = 0;      //счетчик для массива files
 
-            for (int i = 1; i < entries.Length; i++)
+            for (int i = 0; i < entries.Length; i++)
             {
                 var thisParent = Directory.GetParent(entries[i]);
                 if (thisParent.Name != parentPath.Name)
@@ -63,18 +63,26 @@ namespace Task_4
                     {
                         space += "    ";
                     }
-
-                    files[i] = space + Path.GetFileName(thisParent.FullName);
-                    Console.WriteLine(files[i]);
+                    
+                    files[++k] = space + Path.GetFileName(thisParent.FullName);
                     parentPath = thisParent;
 
                     space += "    ";
                 }
-                int k = i + 1;
-                files[k] = space + Path.GetFileName(entries[i]);
-                Console.WriteLine(files[i]);
-            }
 
+                string[] dir = new string[0];
+                string[] file = new string[0];
+                if (Path.GetExtension(entries[i]) == "")
+                {
+                    dir = Directory.GetDirectories(entries[i]);
+                    file = Directory.GetFiles(entries[i]);
+                }
+
+                if ((dir.Length == 0 && file.Length == 0) || Path.GetExtension(entries[i]) != "")    //проверка папки на наличие содержимого
+                {
+                    files[++k] = space + Path.GetFileName(entries[i]);
+                }
+            }
             File.WriteAllLines("cycleTree.txt", files);
         }
 
@@ -99,9 +107,9 @@ namespace Task_4
         private static void Recursive(string directory, ref List<string> allFiles, string spaces)
         {
             string[] dir = Directory.GetDirectories(directory);
+            spaces += "   ";
             if (dir.Length > 0)
             {
-                spaces += "   ";
                 for (int i = 0; i < dir.Length; i++)    //проход по папкам
                 {
                     allFiles.Add(spaces + Path.GetFileName(dir[i]));
@@ -110,7 +118,6 @@ namespace Task_4
                 }
             }
             string[] files = Directory.GetFiles(directory);
-            spaces += "   ";
             for (int j = 0; j < files.Length; j++)  //проход по файлам в текущей папке
             {
                 allFiles.Add(spaces + Path.GetFileName(files[j]));
