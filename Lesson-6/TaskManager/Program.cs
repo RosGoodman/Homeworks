@@ -11,8 +11,6 @@ namespace TaskManager
             WriteAllProcess();
             WriteAllCommands();
             CommandsStarter();
-
-            Console.ReadLine();
         }
 
         /// <summary>Вывод списка всех процессов.</summary>
@@ -65,12 +63,15 @@ namespace TaskManager
                     break;
                 case "\\ki":
                     KillProcByID(command[1]);
+                    CommandsStarter();
                     break;
                 case "\\kn":
                     KillProcByName(command[1]);
+                    CommandsStarter();
                     break;
                 case "\\c":
                     WriteAllCommands();
+                    CommandsStarter();
                     break;
                 case "\\q":
                     break;
@@ -84,19 +85,70 @@ namespace TaskManager
         /// <param name="processID">ID процесса.</param>
         private static void KillProcByID(string processID)
         {
-            foreach(Process process in Process.GetProcesses())
+            bool procKilled = false;
+            int intPocessID = 0;
+            int.TryParse(processID, out intPocessID);
+            if (!int.TryParse(processID, out intPocessID)) intPocessID = -1;    //если не удалось парсить
+
+            foreach (Process process in Process.GetProcesses())
             {
-                if (process.Id == Convert.ToInt32(processID)) process.Kill();
+                if (process.Id == intPocessID)
+                {
+                    procKilled = true;
+                    if (Question(process))
+                    {
+                        process.Kill();
+                        Console.WriteLine("Готово!");
+                    }
+                }
             }
+            if (!procKilled) NotFound(processID);
         }
 
         /// <summary>Завершить процесс по имени.</summary>
         /// <param name="processID">Имя процесса.</param>
         private static void KillProcByName(string processName)
         {
+            bool procKilled = false;
             foreach (Process process in Process.GetProcesses())
             {
-                if (process.ProcessName == processName) process.Kill();
+                if (process.ProcessName == processName)
+                {
+                    procKilled = true;
+                    if (Question(process))
+                    {
+                        process.Kill();
+                        Console.WriteLine("Готово!");
+                    }
+                }
+            }
+            if (!procKilled) NotFound(processName);
+        }
+
+        /// <summary>Вывод сообщения об отсутствии искомого процесса.</summary>
+        /// <param name="proc">Имя или ID процесса.</param>
+        private static void NotFound(string proc)
+        {
+            Console.WriteLine("Процесс {0} не найден.", proc);
+        }
+
+        /// <summary>Запрос подтверждения.</summary>
+        /// <param name="process">Выбранный процесс.</param>
+        /// <returns>Ответ пользователя.</returns>
+        private static bool Question(Process process)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Вы действительно желаете завершить процесс {0} - {1}? y/n", process.ProcessName, process.Id);
+            string answer = Console.ReadLine();
+
+            switch (answer)
+            {
+                case "n":
+                    return false;
+                case "y":
+                    return true;
+                default:
+                    return Question(process);
             }
         }
     }
