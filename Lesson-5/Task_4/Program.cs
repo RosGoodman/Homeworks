@@ -90,7 +90,7 @@ namespace Task_4
 
         #region Рекурсия
 
-        /// <summary>Старт рекурсии.</summary>
+        /// <summary>Установка параметров для рекурсивного способа.</summary>
         /// <param name="directory">Начальная директория.</param>
         private static void StartRecursiveMethod(string directory)
         {
