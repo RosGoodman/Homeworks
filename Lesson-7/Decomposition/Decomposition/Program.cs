@@ -6,7 +6,7 @@ namespace Decomposition
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
         }
     }
 }
