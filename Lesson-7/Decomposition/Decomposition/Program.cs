@@ -21,7 +21,7 @@ namespace Decomposition
             do
             {
                 command = Console.ReadLine();
-            } while (command == string.Empty);
+            } while (command != string.Empty);
             return command;
         }
 
