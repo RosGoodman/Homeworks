@@ -9,7 +9,7 @@ namespace Decomposition
         {
             Controller controller = new Controller();
             Writer(controller.CommadSterter("startText"));
-            Writer(controller.CommadSterter("change"));
+            //Writer(controller.CommadSterter("change"));
             Writer(controller.CommadSterter("com"));
 
             string command = string.Empty;

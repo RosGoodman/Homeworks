@@ -1,4 +1,5 @@
-﻿using Decomposition.Services;
+﻿using Decomposition.ReadAndWrite;
+using Decomposition.Services;
 using Decomposition.Settings;
 using System.Collections.Generic;
 
@@ -47,19 +48,29 @@ namespace Decomposition.Controllers
         /// <returns>Массив с найденными изменениями.</returns>
         internal string[] FindChanges()
         {
-            List<string> ListAllChanges = new List<string>();
             string[] allChanges = new string[1];
+
             if (_settings.FolderPath != string.Empty)
             {
-                ListAllChanges = ChangeFinder.StartRecursiveMethod(_settings.FolderPath);
+                ReadAndWriteFiles readAndWriteFiles = new ReadAndWriteFiles();
+                string[] changes = readAndWriteFiles.ReadTxt(_settings.FileWithChanges);    //получаем список прошлых изменений
+
+                ChangeFinder changeFinder = new ChangeFinder();
+                List<string> ListAllChanges;
+
+                ListAllChanges = changeFinder.StartRecursiveMethod(_settings.FolderPath, _settings.LastCheck, changes);     //получить список новых изменений
+
+                /////////////////////////////////////////////////////
+                ///TODO переписать на вывод последних изменений
                 allChanges = new string[ListAllChanges.Count];
 
                 int i = 0;
                 foreach (string str in ListAllChanges)   //переписываем в массив для возврата.
                 {
-                    allChanges[i] = ListAllChanges[i];
+                    allChanges[i] = ListAllChanges[i];  
                     i++;
                 }
+                //////////////////////////////////////////////////////
             }
             else
             {

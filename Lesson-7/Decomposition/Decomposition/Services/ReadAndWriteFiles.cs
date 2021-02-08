@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace Decomposition.ReadAndWrite
 {
@@ -25,6 +26,14 @@ namespace Decomposition.ReadAndWrite
         internal void WriteTxt(string[] lines, string path)
         {
             File.WriteAllLines(path, lines);
+        }
+
+        /// <summary>Дописать в файл сроки.</summary>
+        /// <param name="lines">Список строк.</param>
+        /// <param name="path">Путь к файлу.</param>
+        internal void AppendTxt(List<string> lines, string path)
+        {
+            File.AppendAllLines(path, lines);
         }
     }
 }
