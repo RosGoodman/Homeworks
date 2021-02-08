@@ -1,17 +1,24 @@
-﻿using Decomposition.Controllers;
-using System;
+﻿using System;
+using Decomposition.Controllers;
 
 namespace Decomposition
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Controller controller = new Controller();
-            controller.CommadSterter("startText");
-            string command = CommandReader();
-            string[] commandAnswer = controller.CommadSterter(command);
-            Writer(commandAnswer);
+            Writer(controller.CommadSterter("startText"));
+            Writer(controller.CommadSterter("change"));
+            Writer(controller.CommadSterter("com"));
+
+            string command = string.Empty;
+            do
+            {
+                command = CommandReader();
+                string[] commandAnswer = controller.CommadSterter(command);
+                Writer(commandAnswer);
+            } while (command != "q");
         }
 
         /// <summary>Прочитать команду в консли.</summary>
@@ -21,7 +28,7 @@ namespace Decomposition
             do
             {
                 command = Console.ReadLine();
-            } while (command != string.Empty);
+            } while (command == string.Empty);
             return command;
         }
 

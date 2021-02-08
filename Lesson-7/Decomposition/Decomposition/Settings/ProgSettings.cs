@@ -1,11 +1,10 @@
 ﻿using Decomposition.ReadAndWrite;
-using Decomposition.Services;
 
 namespace Decomposition.Settings
 {
     class ProgSettings
     {
-        private string _folderPath;
+        private string _folderPath = string.Empty;
         private string _settFileName = "settings.txt";  //путь к файлу с настройками.
 
         /// <summary>Путь к папке, в которой прог. будет осуществлять работу.</summary>
