@@ -14,7 +14,6 @@ namespace Task_1
             int[,] rndArr = program.RandomArray(lenght);
 
             program.PrintDiagonal(rndArr);
-
             Console.ReadLine();
         }
 
